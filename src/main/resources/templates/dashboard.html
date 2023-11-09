@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Project OrdTilOrd</title>
+
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <script defer src="/js/bootstrap.bundle.min.js"></script>
+
+  <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.png}" href="../static/pictures/favicon.png">
+
+  <!-- Baggrundsfarve & Logo Størrelse -->
+  <style>
+    body { background-color: #f8f9fa;}
+    .navbar-logo { width: 120px; margin-left: -5px;}
+    #burndownChart { height: 50% !important; } /* Halverer højden af grafen */
+  </style>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+<!-------------------------NAVIGATION--------------------------->
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+  <a class="navbar-brand">
+    <img src="/images/logo.png" class="navbar-logo" alt="EleBite Logo">
+  </a>
+
+  <!-- Kollapset navigationsbar -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNav">
+
+    <!---- Venstre Navigationsbar ----->
+
+    <ul class="navbar-nav mr-auto">
+
+      <li class="nav-item active">
+        <a class="nav-link" th:href="@{/dashboard}">Hjem</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/interesser}">Interesser</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/wishes}">Ønsker</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/words}">Ord</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/stories}">Historier</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/flawors}">Humør</a>
+      </li>
+
+
+
+    </ul>
+
+    <!---- Højre Navigationsbar ----->
+
+    <ul class="navbar-nav ml-auto">
+
+      <li class="nav-item">
+        <a th:if="${param.success}" class="alert alert-success">Hej! du kan nu bruge Ord Til Ord</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/profile}">Dig</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/logout}">Ud</a>
+      </li>
+
+    </ul>
+
+  </div>
+
+</nav>
+
+<div class="container mt-4">
+  <!-- Project summary cards -->
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card text-white bg-primary mb-3">
+        <div class="card-header">Historier</div> <!-- Total Projects -->
+        <div class="card-body">
+          <h4 class="card-title">3</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-white bg-success mb-3">
+        <div class="card-header">Nye Ord</div>
+        <div class="card-body">
+          <h4 class="card-title">45</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-white bg-warning mb-3">
+        <div class="card-header">Dit Humør</div>
+        <div class="card-body">
+          <h4 class="card-title">Glad!</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent tasks table -->
+  <div class="card">
+    <div class="card-header">Ord Til Ord</div>
+    <div class="card-body">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Titel</th>
+          <th>Historie</th>
+          <th>Dato</th>
+          <th>Feedback</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Insert your recent tasks data here -->
+
+        <tr>
+          <td>Stig og Uheldet med Stikbolden</td>
+          <td>Stig elsker stikbold. Han spiller hver dag. Han kaster bolden. Han rammer en ven. Vennen siger "Av!" og falder. En ambulance kommer. Vennen kører væk.
+
+            Stig er ked af det. Han venter. Tiden går.
+
+            Så ser han vennen igen. Vennen smiler. Han har et plaster på hovedet. "Er du ok?" spørger Stig.
+
+            "Ja," siger vennen. "Vi spiller snart igen." De griner.
+
+            De er venner. Stig er glad. Vennen er glad. De spiller igen. Men nu passer de på.</td>
+          <td>10-Nov-23</td>
+          <td>God</td>
+        </tr>
+        <tr>
+          <td>Farverige Følelser</td>
+          <td>En dreng blev sur. Han tog maling. Han malede sit hoved. Rød, gul, og blå.
+
+            "Hvad laver du?" spurgte hun.
+
+            "Jeg maler," sagde han. "Det gør mig glad."
+
+            Hun lo. "Nu er du sjov," sagde hun.
+
+            Han så i spejlet. Han grinede. Han var ikke sur længere. Han havde mange farver på hovedet.
+
+            "Se mig!" råbte han.
+
+            Alle lo. Han var som en klovn.
+
+            "Du er god til at male," sagde hun.
+
+            Han følte sig glad. Han malede ikke mere, når han var sur.
+
+            "Nu kan vi lege," sagde hun.
+
+            De legede. De grinede. Han var den sjove dreng med det farvede hoved.</td>
+          <td>8-Nov-23</td>
+          <td>Medium</td>
+        </tr>
+        <tr>
+          <td>BMX-Helten</td>
+          <td>Han fik en BMX. Han var glad. Han kørte på banen. Hurtig og sej.
+
+            Han hoppede. Han drejede. Hans familie så på. "Se ham!" sagde de.
+
+            Han lavede tricks. Rundt og rundt. Alle klappede. "Hurra!" råbte de.
+
+            Han smilte stort. Han følte sig som en helt.
+
+            "Du er god," sagde mor. "Fantastisk!" sagde far. Lillebror lo. "Du kan det!" råbte han.
+
+            Han kørte mere. Han viste et nyt trick. Alle var stolte. De sagde, "Du er den bedste."
+
+            Han var deres BMX-helt. Han var lykkelig. Han elskede sin BMX. Og de elskede ham.</td>
+          <td>8-Nov-23</td>
+          <td>Sjov</td>
+        </tr>
+
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- JavaScript -->
+<script>
+
+</script>
+
+</body>
+
+</html>
